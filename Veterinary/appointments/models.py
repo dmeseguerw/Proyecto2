@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 
 GENDERS = [
     ('M', 'Male'),
@@ -8,9 +7,12 @@ GENDERS = [
     ('U','Unknown'),
 ]
 
-class Owner(models.Model):
-    pass
-
+class Client(models.Model):
+    username = models.CharField(max_length=10)
+    name = models.CharField(max_length=10)
+    mail = models.CharField(max_length=20)
+    pwd = models.CharField(max_length=20)
+    tel = models.PositiveIntegerField(blank=True)
 class Pet(models.Model):
     name = models.CharField(max_length=10)
     gender = models.CharField(max_length=1,choices=GENDERS)
