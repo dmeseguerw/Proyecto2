@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Register new admin</h1>
+<div class="container">
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create new admin</button>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Home</title>
+{% endblock %}
+
+{% block body %}
+<h1>Welcome {{user}}! </h1>
+<button><a href="/account/profile">View Profile</a></button> <br>
+<button><a href="/check">Check</a></button><br>
+<button><a href="/home">Homepage</a></button><br>
+{% if user.is_staff %}
+<button><a href="/account/register_admin">Create admin user</a></button><br>
+{% endif %}
+<br>
+<br>
+<button><a href="/account/logout">Logout</a></button><br>
+{% endblock %}
+
+
