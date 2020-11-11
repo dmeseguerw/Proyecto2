@@ -6,6 +6,7 @@
   </head>
   <body>
     {% load static %}
+    {% load widget_tweaks %}
 
     <!-- <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}"> -->
 
@@ -17,7 +18,18 @@
         <li><a href="{% url 'appointments:contact' %}">Contact</a></li>
     </ul>
     
-    <h1>LOGS</h1>
+    
+    <h1>{{ note }}</h1>
+    <form action="{% url 'appointments:confirm' %}" method="POST">
+        {% csrf_token %}
+        {% for field in appform%}
+        <div class="form-group">
+          {{field.label_tag}}
+          {% render_field field class="form-control"%}
+        </div>
+        {% endfor%}
+        <input type="submit" value="Create appointment">
+    </form>
 
   </body>
 </html>

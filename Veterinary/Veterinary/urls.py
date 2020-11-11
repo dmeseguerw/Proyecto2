@@ -16,16 +16,15 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
-# from django.contrib import admin
-# from django.urls import include,path
 # from django.conf.urls import url, include
 # from Appointments import views
-# from accounts import views as acc_v
-# from Veterinary import views as VetViews
+#from accounts import views as acc_v
+#from Veterinary import views as VetViews
 urlpatterns = [
     #path('', VetViews.login_redirect, name='login_redirect'),
     #path('account/',include('accounts.urls')),
     path('admin/', admin.site.urls),
+    #path('',include('accounts.urls')),
     path('', include('appointments.urls')),
     
 ]

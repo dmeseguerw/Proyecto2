@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'appointments.apps.AppointmentsConfig',
     'accounts.apps.AccountsConfig',
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [
