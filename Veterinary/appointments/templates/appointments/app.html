@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>My page 1</title>
+    <title>D&E Veterinary</title>
   </head>
   <body>
     {% load static %}
@@ -10,7 +10,7 @@
     {% load bootstrap4 %}
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
-    
+    {{ appform.media }}
     <!-- <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}"> -->
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
       <a class="navbar-brand" href="#">D&E Veterinary</a>
@@ -22,14 +22,14 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'appointments:home' %}">Home</a>
           </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'appointments:about' %}">About<span class="sr-only">(current)</span></a>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'appointments:about' %}">About</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'appointments:services' %}">Services</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'appointments:app' %}">Appointments</a>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'appointments:app' %}">Appointments<span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'appointments:contact' %}">Contact</a>
@@ -51,7 +51,29 @@
     </nav>
     
     <p style="margin-bottom:2cm;"></p>
-    <h1>ABOUT</h1>
+    
+    <form action="{% url 'appointments:confirm' %}" method="POST">
+      {% csrf_token %}
+      <div class="container">
+        <div class="row">
+          
+          <div class="col-sm">
+            <h2 style="text-align: center;">Appointment Details</h2>
+            {% bootstrap_form appform size='small'%}
+            
+          </div>
+          
+          <div class="col-sm">  
+            <h2 style="text-align: center;">Pet Details</h2>
+            {% bootstrap_form petform size='small'%}
+          </div>
+          
+        </div>
+      </div>
+      <div class="col-md-12 text-center">
+        <input class="btn btn-primary" type="submit" value="Create appointment">
+      </div>
+    </form>
 
   </body>
 </html>

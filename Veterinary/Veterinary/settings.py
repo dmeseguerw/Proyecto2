@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'appointments.apps.AppointmentsConfig',
     'accounts.apps.AccountsConfig',
-    'widget_tweaks'
+    'widget_tweaks',
+    'bootstrap_datepicker_plus',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [

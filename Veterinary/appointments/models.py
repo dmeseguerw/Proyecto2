@@ -29,7 +29,7 @@ class Veterinary(models.Model):
     telephone = models.PositiveIntegerField()
     
     def __str__(self):
-        return "Veterinary: "+self.name
+        return "Dr: "+self.name
 
 class Client(models.Model):
     username = models.CharField(max_length=10)
@@ -58,8 +58,8 @@ class Appointments(models.Model):
     date = models.DateField()
     time = models.CharField(max_length=5,choices=HOURS)
     pet = models.ForeignKey(Pet,on_delete=models.CASCADE)
-    reason = models.TextField()
+    reason = models.CharField(max_length=30)
     req_date = models.DateTimeField()
 
     def __str__(self):
-        return "Vet: "+self.veterinary.name+", Client: "+self.client.name+", Date"+str(self.time)
+        return "Vet: "+self.veterinary.name+", Client: "+self.client.name+", Date: "+str(self.date)
