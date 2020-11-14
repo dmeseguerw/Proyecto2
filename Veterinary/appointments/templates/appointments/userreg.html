@@ -52,7 +52,7 @@
     
     <p style="margin-bottom:2cm;"></p>
     <h3 style="text-align: center;">{{note}}</h3>
-    <form action="{% url 'appointments:checklog' %}" method="POST">
+    <form action="{% url 'appointments:checkuserreg' %}" method="POST">
         {% csrf_token %}
         <div class="container">
           <div class="row">
@@ -60,7 +60,7 @@
             </div>
 
             <div class="col-sm">
-              {% bootstrap_form userlogform size='small'%}
+              {% bootstrap_form userregform size='small'%}
               
             </div>
             
@@ -70,44 +70,10 @@
           </div>
         </div>
         <div class="col-md-12 text-center">
-          <input class="btn btn-primary" type="submit" value="Log In">
+          <input class="btn btn-primary" type="submit" value="Register">
         </div>
       </form>
 
-      <p style="margin-bottom:1cm;"></p>
       
-      <div class="container">
-        <div class="row">
-          <div class="col-sm">  
-          </div>
-
-          <div class="col-sm">
-            <p style="text-align: center;">Not registered? Please register</p>
-            
-            <div class="row">
-              <div class="col-sm text-center">
-                <form action="{% url 'appointments:reguser' %}" method="POST">
-                  {% csrf_token %}
-                  <input class="btn btn-secondary btn-block" type="submit" value="User">
-                </form>
-              </div>
-              <div class="col-sm text-center ">
-                <form action="{% url 'appointments:regadmin' %}" method="POST">
-                  {% csrf_token %}
-                  <input class="btn btn-secondary btn-block" type="submit" value="Admin">
-                </form>
-              </div>
-            </div>
-            
-          </div>
-          
-          <div class="col-sm">  
-          </div>
-          
-        </div>
-      </div>
-      <!-- <div class="col-md-12 text-center">
-        <input class="btn btn-primary" type="submit" value="Log In">
-      </div> -->
   </body>
 </html>

@@ -10,7 +10,6 @@ class AppForm(forms.ModelForm):
             'veterinary',
             'date',
             'time',
-            'pet',
             'reason',
         ]
         widgets = {
@@ -46,3 +45,27 @@ class UserLogForm(forms.ModelForm):
         widgets = {
             'password': forms.PasswordInput(),
         }
+
+class UserRegForm(forms.ModelForm):
+    prefix='userregform'
+    class Meta:
+        model = Client
+        fields = [
+            'username',
+            'name',
+            'email',
+            'password',
+            'telephone',
+        ]
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
+
+class AdminRegForm(forms.Form):
+    prefix='userregform'
+    username = forms.CharField(max_length=10)
+    name = forms.CharField(max_length=50)
+    email = forms.EmailField()
+    password = forms.CharField(max_length=20,widget=forms.PasswordInput())
+    telephone = forms.IntegerField()
+    admin_pwd=forms.CharField(max_length=20,widget=forms.PasswordInput())
