@@ -1,56 +1,15 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>D&E Veterinary</title>
-  </head>
-  <body>
-    {% load static %}
-    {% load widget_tweaks %}
-    {% load bootstrap4 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript jquery='full' %}
-    {{ appform.media }}
-    <!-- <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}"> -->
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
-      <a class="navbar-brand" href="#">D&E Veterinary</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'appointments:home' %}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'appointments:about' %}">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'appointments:services' %}">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'appointments:app' %}">Appointments</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'appointments:contact' %}">Contact</a>
-          </li>
-        </ul>
-        <span class="navbar-text" style="width: 50px;">{{username}}</span>
-        {% if username == ''%}
-          <form class="form-inline" action="{% url 'appointments:login' %}" method="POST">
-            {% csrf_token %}
-            <button class="btn btn-success" type="submit">Log In</button>
-          </form>
-        {% else %}
-          <form class="form-inline" action="{% url 'appointments:logout' %}" method="POST">
-            {% csrf_token %}
-            <button class="btn btn-warning" type="submit">Log Out</button>
-          </form>
-        {% endif%}
-      </div>
-    </nav>
-    
-    <p style="margin-bottom:2cm;"></p>
+{% extends 'appointments/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{% block content %}
+ 
+    <p style="margin-bottom:4cm;"></p>
+    <h2 style="text-align: center;">Register new admin</h1>
+    <p style="margin-bottom:1cm;"></p>
     <h3 style="text-align: center;">{{note}}</h3>
     <form action="{% url 'appointments:checkadminreg' %}" method="POST">
         {% csrf_token %}
@@ -74,6 +33,4 @@
         </div>
       </form>
 
-      
-  </body>
-</html>
+{% endblock %}

@@ -1,57 +1,70 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>D&E Veterinary</title>
-  </head>
-  <body>
-    {% load static %}
-    {% load widget_tweaks %}
-    {% load bootstrap4 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript jquery='full' %}
-    
-    <!-- <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}"> -->
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
-      <a class="navbar-brand" href="#">D&E Veterinary</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'appointments:home' %}">Home</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'appointments:about' %}">About<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'appointments:services' %}">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'appointments:app' %}">Appointments</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'appointments:contact' %}">Contact</a>
-          </li>
-        </ul>
-        <span class="navbar-text" style="width: 50px;">{{username}}</span>
-        {% if username == ''%}
-          <form class="form-inline" action="{% url 'appointments:login' %}" method="POST">
-            {% csrf_token %}
-            <button class="btn btn-success" type="submit">Log In</button>
-          </form>
-        {% else %}
-          <form class="form-inline" action="{% url 'appointments:logout' %}" method="POST">
-            {% csrf_token %}
-            <button class="btn btn-warning" type="submit">Log Out</button>
-          </form>
-        {% endif%}
-      </div>
-    </nav>
-    
-    <p style="margin-bottom:2cm;"></p>
-    <h1>ABOUT</h1>
+{% extends 'appointments/base.html' %}
 
-  </body>
-</html>
+{% load static %}
+
+{% block block_about %}
+<li class="nav-item active">
+  <a class="nav-link" href="{% url 'appointments:about' %}">About<span class="sr-only">(current)</span></a>
+</li>
+{% endblock %}
+
+{% block content %}
+<!-- <p style="margin-bottom:4cm;"></p>
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Beginning</h1>
+            <h2>Little Test</h2>
+        </div>
+        <div class="col-md-6">
+          <img class="card-img-top" src="{% static 'images/dogo.jpg' %}" alt="Card image cap">
+        </div>
+    </div>
+  </div>
+  </div> -->
+  <p style="margin-bottom:2cm;"></p>
+<div class="jumbotron" style="background-color: whitesmoke !important;">
+  <div class="container">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img class="d-block w-100" src="{% static 'images/ab1.jpg' %}" alt="First slide">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>OUR MISSION</h3>
+            <p>“To provide the highest quality medical and surgical care to our patients while 
+              providing our clients with education and assistance in all aspects of animal care and ownership”</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" src="{% static 'images/ab2.jpg' %}" alt="Second slide">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>WHO DO WE TAKE CARE OF?</h3>
+            <p>We offer our services on avian, equine, feline, canine, reptile and dairy practice. No one is left behind.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" src="{% static 'images/ab3.jpg' %}" alt="Third slide">
+          <div class="carousel-caption d-none d-md-block">
+            <h3>ABOUT OUR STAFF</h3>
+            <p>Our staff includes specialists in a wide set of areas. Behavior, emergency, cardiology, neurology, radiology and surgery are all part of D&E Veterinary.</p>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
