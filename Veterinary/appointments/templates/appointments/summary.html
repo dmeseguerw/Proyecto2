@@ -16,12 +16,12 @@
 {% block content %}
 
     <p style="margin-bottom:4cm;"></p>
-    
+    <div class="jumbotron" style="background-color: rgb(255, 255, 255) !important;">
     <div class="container">
       <div class="row">
         
         <div class="col-8">
-          <h1 style="text-align: center;">Your appointments</h1>
+          <h1 style="text-align: center; color: rgb(31, 68, 124);">Your appointments</h1>
           <p style="margin-bottom:1cm;"></p>
           {% if has_apps%}
             <table class="table">
@@ -85,7 +85,13 @@
       </div>
     </div>
     
-    
+  </div>
 
     
+{% endblock %}
+
+{% block footer %}
+<div class="container text-center">
+  <img class="img-rounded" src="{% static 'images/logot.png' %}" alt="Card image cap">
+</div>
 {% endblock %}

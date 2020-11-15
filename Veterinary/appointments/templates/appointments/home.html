@@ -26,9 +26,12 @@
 </div> -->
 
 <div class="container text-center">
-<div class="jumbotron">
-<h1 class="display-4">Welcome to D&E Veterinary!</h1>
-<p class="lead">We offer a variety of services to keep your pet safe and healthy.</p>
+<div class="jumbotron" style="background-image: url('{% static 'images/white.jpg' %}');">
+  <div class="container text-center">
+    <img class="img-rounded" src="{% static 'images/logot.png' %}" alt="Card image cap">
+  </div>
+<h1 class="display-4" style="color: rgb(31, 68, 124);">Welcome to D&E Veterinary!</h1>
+<p class="lead" style="color:  rgb(31, 68, 124);">We offer a variety of services to keep your pet safe and healthy.</p>
 <hr class="my-4">
 <p class="lead">
 <a class="btn btn-primary btn-lg" href="{% url 'appointments:about' %}" role="button">Read our story</a>
