@@ -11,6 +11,9 @@
     {% load bootstrap4 %}
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
+
+    {% block extrahead %}
+    {% endblock %}
     <link rel="stylesheet" href="{% static 'css/custom-style.css' %}">
     
     <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-primary">
@@ -46,6 +49,8 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'appointments:contact' %}">Contact</a>
           </li>
+          {% endblock %}
+          {% block admin_info %}
           {% endblock %}
         </ul>
         <span class="navbar-text" style="width: 50px;">{{username}}</span>

@@ -1,6 +1,10 @@
 {% extends 'appointments/base.html' %}
 
-{% load static %}
+{% block extrahead %}
+{% load bootstrap4 %}
+{{ appform.media }}
+{% endblock %}
+
 
 {% block block_app %}
 <li class="nav-item active">
@@ -10,7 +14,7 @@
 
     
 {% block content %}
-<p style="margin-bottom:2cm;"></p>
+<p style="margin-bottom:4cm;"></p>
 
 <form action="{% url 'appointments:confirm' %}" method="POST">
   {% csrf_token %}
@@ -19,13 +23,12 @@
       
       <div class="col-sm">
         <h2 style="text-align: center;">Appointment Details</h2>
-        {% bootstrap_form appform size='small'%}
-        
+        {% bootstrap_form appform %} 
       </div>
       
       <div class="col-sm">  
         <h2 style="text-align: center;">Pet Details</h2>
-        {% bootstrap_form petform size='small'%}
+        {% bootstrap_form petform %}
       </div>
       
     </div>
@@ -35,4 +38,7 @@
   </div>
 </form>
 
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

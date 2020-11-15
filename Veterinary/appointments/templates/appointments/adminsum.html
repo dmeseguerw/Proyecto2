@@ -5,8 +5,27 @@
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
 
+{% block block_home %}
+{% endblock %}
+{% block block_about %}
+{% endblock %}
+{% block block_services %}
+{% endblock %}
+{% block block_app %}
+{% endblock %}
+{% block block_contact %}
+{% endblock %}
+{% block admin_info %}
+<li class="nav-item">
+  <a class="nav-link" href="#">Administrator Interface</a>
+</li>
+{% endblock %}
+
+
 {% block content %}
-    <h1>Admin Summary</h1>
+  
+  <p style="margin-bottom:4cm;"></p>    
+  <h1>Admin Summary</h1>
 
     <!-- FIXME add adminnewapp -->
     <form action="{% url 'appointments:usernewapp' %}" method="POST">
@@ -15,7 +34,7 @@
         <input class="btn btn-primary" type="submit" value="Add new apointment">
       </div>
     </form>
-{% endblock}
+{% endblock %}
 
 {% block footer %}
 {% endblock %}

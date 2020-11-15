@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'appointments.apps.AppointmentsConfig',
     'accounts.apps.AccountsConfig',
     'widget_tweaks',
-    'bootstrap_datepicker_plus',
     'bootstrap4',
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [
