@@ -59,10 +59,24 @@ def app(request):
         }
         return render(request,'appointments/login.html',context)
     else:
-        context={
-            'username': username,
+        uname=request.session['username']
+        client_object=Client.objects.get(username=uname)
+        user_apps=Appointments.objects.filter(client=client_object).order_by('date')
+
+        
+        if user_apps.count()>0:
+            has_apps=True
+        else:
+            has_apps=False
+        
+        note="Your appointments"
+        context = {
+            'note': note,
+            'username': uname,
+            'user_apps':user_apps,
+            'has_apps':has_apps,
         }
-        return render(request, 'appointments/summary.html', context)
+        return render(request,'appointments/summary.html',context)
 
 def contact(request):
     username=''
@@ -121,12 +135,13 @@ def confirm(request):
             )
             app_det.save()
 
+            
             note="Appointment confirmed"
             context = {
                 'note': note,
             }
             return HttpResponseRedirect(reverse('appointments:summary'))
-
+            
         else:
             note="Incorrect values, try again"
             context = {
@@ -146,12 +161,21 @@ def confirm(request):
         return render(request,'appointments/app.html',context)
     
 def summary(request):
-    username=request.session['username']
+    uname=request.session['username']
+    client_object=Client.objects.get(username=uname)
+    user_apps=Appointments.objects.filter(client=client_object).order_by('date')
+
+    if user_apps.count()>0:
+        has_apps=True
+    else:
+        has_apps=False
     
     note="Your appointments"
     context = {
         'note': note,
-        'username': username,
+        'username': uname,
+        'user_apps':user_apps,
+        'has_apps':has_apps,
     }
     return render(request,'appointments/summary.html',context)
 
@@ -191,6 +215,7 @@ def checklog(request):
                 # check password
                 if qs_c[0].password==pwd:
                     request.session['username']=qs_c[0].name
+                    request.session['is_vet']=False
                     return HttpResponseRedirect(reverse('appointments:summary'))
                 else:
                     context={
@@ -205,6 +230,7 @@ def checklog(request):
                 # check password
                 if qs_v[0].password==pwd:
                     request.session['username']=qs_v[0].name
+                    request.session['is_vet']=True
                     return HttpResponseRedirect(reverse('appointments:adminsum'))
                 else:
                     context={
@@ -383,3 +409,121 @@ def checkuserreg(request):
             'username': 'Wrong information',
         }
         return render(request, 'appointments/userreg.html', context)
+
+def userdelapp(request,question_id):
+    appointment=Appointments.objects.filter(id=question_id)
+    appointment.delete()
+
+    uname=request.session['username']
+    client_object=Client.objects.get(username=uname)
+    user_apps=Appointments.objects.filter(client=client_object).order_by('date')
+
+    if user_apps.count()>0:
+        has_apps=True
+    else:
+        has_apps=False
+    
+    note="Your appointments"
+    context = {
+        'note': note,
+        'username': uname,
+        'user_apps':user_apps,
+        'has_apps':has_apps,
+    }
+    return render(request,'appointments/summary.html',context)
+
+def usermodapp(request,question_id): #FIXME currently not modifying
+    uname=request.session['username']
+    app=Appointments.objects.filter(id=question_id)[0]
+
+    filled_pet_form=PetForm(initial={
+        'name':app.pet.name,
+        'gender':app.pet.gender,
+        'age':app.pet.age,
+        'species':app.pet.species,
+    })
+    filled_app_form=AppForm(initial={
+        'veterinary':app.veterinary,
+        'date':app.date,
+        'time':app.time,
+        'reason':app.reason,
+    })
+
+    context = {
+        'username': uname,
+        'question_id':question_id,
+        'appform':filled_app_form,
+        'petform':filled_pet_form,
+    }
+    return render(request,'appointments/usermod.html',context)
+
+def usersavechanges(request,question_id):
+    app=Appointments.objects.filter(id=question_id)
+    app.delete()
+    new_app_form=AppForm()
+    new_pet_form=PetForm()
+    uname=request.session['username']
+    if request.method=='POST':
+        filled_app_form=AppForm(request.POST,prefix='appform')
+        filled_pet_form=PetForm(request.POST,prefix="petform")
+
+        if filled_app_form.is_valid() and filled_pet_form.is_valid():
+            l_client=Client.objects.get(username=uname)         
+            l_vet=filled_app_form.cleaned_data.get("veterinary")
+            l_date=filled_app_form.cleaned_data.get("date")
+            l_time=filled_app_form.cleaned_data.get("time")
+            l_reason=filled_app_form.cleaned_data.get("reason")
+            l_req_date=timezone.now()
+
+            pet_name=filled_pet_form.cleaned_data.get("name")
+
+            pet_match=Pet.objects.filter(name=pet_name).filter(owner=l_client)
+            if pet_match.count()==1:
+                l_pet=pet_match[0]
+            else:
+                l_pet=Pet(
+                    owner=l_client,
+                    name=filled_pet_form.cleaned_data.get("name"),
+                    gender=filled_pet_form.cleaned_data.get("gender"),
+                    age=filled_pet_form.cleaned_data.get("age"),
+                    species=filled_pet_form.cleaned_data.get("species"),
+                )
+                l_pet.save()
+
+
+
+            app_det=Appointments(
+                client=l_client,
+                veterinary=l_vet,
+                date=l_date,
+                time=l_time,
+                pet=l_pet,
+                reason=l_reason,
+                req_date=l_req_date
+            )
+            app_det.save()
+
+            note="Appointment confirmed"
+            context = {
+                'note': note,
+            }
+            return HttpResponseRedirect(reverse('appointments:summary'))
+
+        else:
+            note="Incorrect values, try again"
+            context = {
+                'note': note,
+                'appform': filled_app_form,
+                'petform': filled_pet_form,
+            }
+            return render(request,'appointments/app.html',context)
+
+    else:
+        note="Incorrect values, try again"
+        context = {
+            'note': note,
+            'appform': new_app_form,
+            'petform': new_pet_form,
+        }
+        return render(request,'appointments/app.html',context)    
+

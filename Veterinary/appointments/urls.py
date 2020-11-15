@@ -20,4 +20,7 @@ urlpatterns = [
     path('regadmin', views.regadmin, name='regadmin'),
     path('checkadminreg', views.checkadminreg, name='checkadminreg'),
     path('checkuserreg', views.checkuserreg, name='checkuserreg'),
+    path('userdelapp/<int:question_id>', views.userdelapp, name='userdelapp'),
+    path('usermodapp/<int:question_id>', views.usermodapp, name='usermodapp'),
+    path('usersavechanges/<int:question_id>', views.usersavechanges, name='usersavechanges'),
 ]

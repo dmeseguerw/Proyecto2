@@ -16,12 +16,76 @@
 {% block content %}
 
     <p style="margin-bottom:4cm;"></p>
-    <h1>Summary</h1>
-
-    <form action="{% url 'appointments:usernewapp' %}" method="POST">
-      {% csrf_token %}
-      <div class="col-md-12 text-center">
-        <input class="btn btn-primary" type="submit" value="Add new apointment">
+    
+    <div class="container">
+      <div class="row">
+        
+        <div class="col-8">
+          <h1 style="text-align: center;">Your appointments</h1>
+          <p style="margin-bottom:1cm;"></p>
+          {% if has_apps%}
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Veterinary</th>
+                  <th scope="col">Pet</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Time</th>
+                  <th scope="col" class="text-center">Options</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for appointment in user_apps%}
+                <tr>
+                  <td>Dr: {{appointment.veterinary.name}}</td>
+                  <td>{{appointment.pet.name}}</td>
+                  <td>{{appointment.date}}</td>
+                  <td>{{appointment.time}}</td>
+                  <td>
+                    <div class="row">
+                      <form action="{% url 'appointments:usermodapp' appointment.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="col-md-12 text-center">
+                          <input class="btn btn-primary" type="submit" value="Modify">
+                        </div>
+                      </form>
+                      <form action="{% url 'appointments:userdelapp' appointment.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="col-md-12 text-center">
+                          <input class="btn btn-primary" type="submit" value="Delete">
+                        </div>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          
+            <!-- {% for appointment in user_apps%}
+              <p>Hola</p>
+            {% endfor %} -->
+          
+            <!-- <p>Sí tienes</p> -->
+          {% else %}
+          <p style="margin-bottom:1cm;"></p>
+          <h4 style="text-align: center;">You have no registered appointments</h4>
+          {% endif%}          
+        </div>
+        
+        <div class="col-4">  
+          <form action="{% url 'appointments:usernewapp' %}" method="POST">
+            {% csrf_token %}
+            <div class="col-md-12 text-center">
+              <input class="btn btn-primary" type="submit" value="Add new apointment">
+            </div>
+          </form>
+        </div>
+        
       </div>
-    </form>
+    </div>
+    
+    
+
+    
 {% endblock %}
