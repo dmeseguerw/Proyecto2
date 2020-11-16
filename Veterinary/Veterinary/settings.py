@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'appointments.apps.AppointmentsConfig',
-    'accounts.apps.AccountsConfig',
     'widget_tweaks',
     'bootstrap4',
     'bootstrap_datepicker_plus',
