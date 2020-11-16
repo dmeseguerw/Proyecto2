@@ -90,7 +90,21 @@
                   <td>{{pet.age}}</td>
                   <td>{{pet.species}}</td>
                   <td>
-                    Arreglar
+                    <div class="row">
+                      <form action="{% url 'appointments:adminmodpet' pet.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="col-md-12 text-center">
+                          <input class="btn btn-primary" type="submit" value="Modify">
+                        </div>
+                      </form>
+                      
+                      <form action="{% url 'appointments:admindelpet' pet.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="col-md-12 text-center">
+                          <input class="btn btn-primary" type="submit" value="Delete">
+                        </div>
+                      </form>
+                    </div>
                   </td>
                 </tr>
                 {% endfor %}
@@ -118,4 +132,6 @@
     
 
     
+{% endblock %}
+{% block footer %}
 {% endblock %}

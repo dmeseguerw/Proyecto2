@@ -28,7 +28,11 @@
     <h2 style="text-align: center;">Register new pet</h1>
     <p style="margin-bottom:1cm;"></p>
     <h3 style="text-align: center;">{{note}}</h3>
+    {% if object_id is not None %}
+    <form action="{% url 'appointments:checkpetreg' object_id %}" method="POST">
+    {% else %}
     <form action="{% url 'appointments:checkpetreg' %}" method="POST">
+    {% endif %}
         {% csrf_token %}
         <div class="container">
           <div class="row">
@@ -46,9 +50,22 @@
           </div>
         </div>
         <div class="col-md-12 text-center">
+          {% if object_id is not None%}
+          <input class="btn btn-primary" type="submit" value="Save changes">
+          {% else %}
           <input class="btn btn-primary" type="submit" value="Register">
+          {% endif %}
         </div>
       </form>
+
+      <p style="margin-bottom:1cm;"></p>
+      <form action="{% url 'appointments:adminpetsum'%}" method="POST">
+          {% csrf_token %}
+          <div class="col-md-12 text-center">
+            <input class="btn btn-primary" type="submit" value="Go Back">
+          </div>
+      </form>
+      
     {% endblock %}
 
 

@@ -88,7 +88,20 @@
                     <td>{{vet.email}}</td>
                     <td>{{vet.telephone}}</td>
                   <td>
-                    Arreglar
+                    <div class="row">
+                      <form action="{% url 'appointments:adminmodadmin' vet.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="col-md-12 text-center">
+                          <input class="btn btn-primary" type="submit" value="Modify">
+                        </div>
+                      </form>
+                      <form action="{% url 'appointments:admindeladmin' vet.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="col-md-12 text-center">
+                          <input class="btn btn-primary" type="submit" value="Delete">
+                        </div>
+                      </form>
+                    </div>
                   </td>
                 </tr>
                 {% endfor %}
@@ -116,4 +129,6 @@
     
 
     
+{% endblock %}
+{% block footer %}
 {% endblock %}

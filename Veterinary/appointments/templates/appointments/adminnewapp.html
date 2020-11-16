@@ -47,7 +47,13 @@
     <input class="btn btn-primary" type="submit" value="Create appointment">
   </div>
 </form>
-
+<p style="margin-bottom:1cm;"></p>
+<form action="{% url 'appointments:adminsum'%}" method="POST">
+    {% csrf_token %}
+    <div class="col-md-12 text-center">
+      <input class="btn btn-primary" type="submit" value="Go Back">
+    </div>
+  </form>
 {% endblock %}
 
 {% block footer %}

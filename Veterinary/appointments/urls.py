@@ -35,5 +35,13 @@ urlpatterns = [
     path('adminuserreg', views.adminuserreg, name='adminuserreg'),
     path('adminpetreg', views.adminpetreg, name='adminpetreg'),
     path('checkpetreg', views.checkpetreg, name='checkpetreg'),
-
+    path('admindeluser/<int:object_id>', views.admindeluser, name='admindeluser'),
+    path('admindelpet/<int:object_id>', views.admindelpet, name='admindelpet'),
+    path('admindeladmin/<int:object_id>', views.admindeladmin, name='admindeladmin'),
+    path('adminmoduser/<int:object_id>', views.adminmoduser, name='adminmoduser'),
+    path('adminmodadmin/<int:object_id>', views.adminmodadmin, name='adminmodadmin'),
+    path('adminmodpet/<int:object_id>', views.adminmodpet, name='adminmodpet'),
+    path('checkuserreg/<int:object_id>', views.checkuserreg, name='checkuserreg'),
+    path('checkadminreg/<int:object_id>', views.checkadminreg, name='checkadminreg'),
+    path('checkpetreg/<int:object_id>', views.checkpetreg, name='checkpetreg'),
 ]

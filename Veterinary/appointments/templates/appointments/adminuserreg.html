@@ -28,7 +28,12 @@
     <h2 style="text-align: center;">Register new user</h1>
     <p style="margin-bottom:1cm;"></p>
     <h3 style="text-align: center;">{{note}}</h3>
+
+    {% if object_id is not None %}
+    <form action="{% url 'appointments:checkuserreg' object_id %}" method="POST">
+    {% else %}
     <form action="{% url 'appointments:checkuserreg' %}" method="POST">
+    {% endif %}
         {% csrf_token %}
         <div class="container">
           <div class="row">
@@ -46,9 +51,23 @@
           </div>
         </div>
         <div class="col-md-12 text-center">
+          {% if is_vet is not None and is_vet%}
+          <input class="btn btn-primary" type="submit" value="Save changes">
+          {% else %}
           <input class="btn btn-primary" type="submit" value="Register">
+          {% endif %}
         </div>
       </form>
+
+      {% if is_vet is not None and is_vet%}
+      <p style="margin-bottom:1cm;"></p>
+      <form action="{% url 'appointments:adminusersum'%}" method="POST">
+          {% csrf_token %}
+          <div class="col-md-12 text-center">
+            <input class="btn btn-primary" type="submit" value="Go Back">
+          </div>
+      </form>
+      {% endif %}
     {% endblock %}
 
 

@@ -449,7 +449,9 @@ def regadmin(request):
     }
     return render(request, 'appointments/adminreg.html', context)
 
-def checkadminreg(request):
+def checkadminreg(request,object_id=None):
+    if object_id is not None:
+        Veterinary.objects.filter(id=object_id).delete()
     try:
         is_vet=request.session['is_vet']
     except KeyError:
@@ -539,7 +541,10 @@ def checkadminreg(request):
             return render(request, 'appointments/adminadminreg.html', context)
 
 
-def checkuserreg(request):
+def checkuserreg(request,object_id=None):
+    if object_id is not None:
+        Client.objects.filter(id=object_id).delete()
+
     try:
         is_vet=request.session['is_vet']
     except KeyError:
@@ -909,7 +914,10 @@ def adminpetreg(request):
     }
     return render(request, 'appointments/adminpetreg.html', context)
 
-def checkpetreg(request):
+def checkpetreg(request,object_id=None):
+    if object_id is not None:
+        Pet.objects.filter(id=object_id).delete()
+
     filled_form=AdminPetForm(request.POST)
     username=request.session['username']
     
@@ -945,3 +953,127 @@ def checkpetreg(request):
             'note': 'Wrong information, try again',
         }
         return render(request, 'appointments/adminpetreg.html', context)
+
+def admindeluser(request,object_id):
+    Client.objects.filter(id=object_id).delete()
+    
+    uname=request.session['username']
+    users=Client.objects.all()
+
+    if users.count()>0:
+        has_users=True
+    else:
+        has_users=False
+    
+    context = {
+        'username': uname,
+        'users':users,
+        'has_users':has_users,
+    }
+    return render(request,'appointments/adminusersum.html',context)
+
+def admindeladmin(request,object_id):
+    Veterinary.objects.filter(id=object_id).delete()
+    uname=request.session['username']
+    vets=Veterinary.objects.all()
+
+    if vets.count()>0:
+        has_vets=True
+    else:
+        has_vets=False
+    
+    context = {
+        'username': uname,
+        'vets':vets,
+        'has_vets':has_vets,
+    }
+    return render(request,'appointments/adminvetsum.html',context)
+
+def admindelpet(request,object_id):
+    Pet.objects.filter(id=object_id).delete()
+    uname=request.session['username']
+    pets=Pet.objects.all()
+
+    if pets.count()>0:
+        has_pets=True
+    else:
+        has_pets=False
+    
+    context = {
+        'username': uname,
+        'pets':pets,
+        'has_pets':has_pets,
+    }
+    return render(request,'appointments/adminpetsum.html',context)
+
+def adminmoduser(request,object_id): 
+    try:
+        is_vet=request.session['is_vet']
+    except KeyError:
+        is_vet=False
+
+    username=request.session['username']
+    client=Client.objects.filter(id=object_id)[0]
+
+    userregform=UserRegForm(initial={
+        'username':client.username,
+        'name':client.name,
+        'email':client.email,
+        'password':client.password,
+        'telephone':client.telephone,
+    })
+    
+
+    context={
+        'username': username,
+        'userregform':userregform,
+        'is_vet':is_vet,
+        'object_id':object_id,
+    }
+    return render(request, 'appointments/adminuserreg.html', context)
+
+def adminmodadmin(request,object_id): 
+    try:
+        is_vet=request.session['is_vet']
+    except KeyError:
+        is_vet=False
+
+    username=request.session['username']
+    vet=Veterinary.objects.filter(id=object_id)[0]
+
+    adminregform=UserRegForm(initial={
+        'username':vet.username,
+        'name':vet.name,
+        'email':vet.email,
+        'password':vet.password,
+        'telephone':vet.telephone,
+    })
+    
+
+    context={
+        'username': username,
+        'adminregform':adminregform,
+        'is_vet':is_vet,
+        'object_id':object_id,
+    }
+    return render(request, 'appointments/adminadminreg.html', context)
+
+def adminmodpet(request,object_id): 
+    
+    username=request.session['username']
+    pet=Pet.objects.filter(id=object_id)[0]
+
+    adminpetform=AdminPetForm(initial={
+        'owner':pet.owner,
+        'name':pet.name,
+        'gender':pet.gender,
+        'age':pet.age,
+        'species':pet.species,
+    })
+    
+    context={
+        'username': username,
+        'adminpetform':adminpetform,
+        'object_id':object_id
+    }
+    return render(request, 'appointments/adminpetreg.html', context)

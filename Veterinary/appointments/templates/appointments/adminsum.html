@@ -117,7 +117,6 @@
         </div>
         
         <div class="col-2">  
-          <!-- FIXME add adminnewapp -->
           <form action="{% url 'appointments:adminnewapp' %}" method="POST">
             {% csrf_token %}
             <div class="col-md-12 text-center">
@@ -132,4 +131,6 @@
     
 
     
+{% endblock %}
+{% block footer %}
 {% endblock %}
