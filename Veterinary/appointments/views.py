@@ -108,38 +108,70 @@ def confirm(request):
 
             pet_name=filled_pet_form.cleaned_data.get("name")
 
-            pet_match=Pet.objects.filter(name=pet_name).filter(owner=l_client)
-            if pet_match.count()==1:
-                l_pet=pet_match[0]
-            else:
-                l_pet=Pet(
-                    owner=l_client,
-                    name=filled_pet_form.cleaned_data.get("name"),
-                    gender=filled_pet_form.cleaned_data.get("gender"),
-                    age=filled_pet_form.cleaned_data.get("age"),
-                    species=filled_pet_form.cleaned_data.get("species"),
-                )
-                l_pet.save()
+            same_time_app=Appointments.objects.filter(veterinary=l_vet).filter(date=l_date).filter(time=l_time)
+            that_day_apps=Appointments.objects.filter(veterinary=l_vet).filter(date=l_date)
 
+            taken_times = set()
+            for item in that_day_apps:
+                taken_times.add(item.time)
 
+            all_times = set()
+            for item in HOURS:
+                all_times.add(item[0])
 
-            app_det=Appointments(
-                client=l_client,
-                veterinary=l_vet,
-                date=l_date,
-                time=l_time,
-                pet=l_pet,
-                reason=l_reason,
-                req_date=l_req_date
-            )
-            app_det.save()
+            av_times=all_times-taken_times
 
             
-            note="Appointment confirmed"
-            context = {
-                'note': note,
-            }
-            return HttpResponseRedirect(reverse('appointments:summary'))
+            if same_time_app.count()>0:
+                # Suggest dates
+                if len(av_times)>0:
+                    suggestions="That date and time with Dr: "+l_vet.name+" is already full,"
+                    suggestions+=" follow this list of suggested times for this date: "
+                    for element in av_times:
+                        suggestions+=str(element)+", "
+                # Suggest changing date
+                else:
+                    suggestions="That date Dr: "+l_vet.name+" is already full,"
+                    suggestions+=" please try other date."
+                
+                
+                context = {
+                    'suggestions': suggestions,
+                    'appform': filled_app_form,
+                    'petform': filled_pet_form,
+                }
+                return render(request,'appointments/app.html',context)
+            else:
+                pet_match=Pet.objects.filter(name=pet_name).filter(owner=l_client)
+                if pet_match.count()==1:
+                    l_pet=pet_match[0]
+                else:
+                    l_pet=Pet(
+                        owner=l_client,
+                        name=filled_pet_form.cleaned_data.get("name"),
+                        gender=filled_pet_form.cleaned_data.get("gender"),
+                        age=filled_pet_form.cleaned_data.get("age"),
+                        species=filled_pet_form.cleaned_data.get("species"),
+                    )
+                    l_pet.save()
+
+                app_det=Appointments(
+                    client=l_client,
+                    veterinary=l_vet,
+                    date=l_date,
+                    time=l_time,
+                    pet=l_pet,
+                    reason=l_reason,
+                    req_date=l_req_date
+                )
+                app_det.save()
+
+                
+                note="Appointment confirmed"
+                context = {
+                    'note': note,
+                }
+                return HttpResponseRedirect(reverse('appointments:summary'))
             
         else:
             note="Incorrect values, try again"
@@ -175,46 +207,76 @@ def adminconfirm(request):
             l_reason=filled_app_form.cleaned_data.get("reason")
             l_req_date=timezone.now()
 
-            pet_name=filled_pet_form.cleaned_data.get("name")
+            same_time_app=Appointments.objects.filter(veterinary=l_vet).filter(date=l_date).filter(time=l_time)
+            that_day_apps=Appointments.objects.filter(veterinary=l_vet).filter(date=l_date)
 
-            pet_match=Pet.objects.filter(name=pet_name).filter(owner=l_client)
-            if pet_match.count()==1:
-                l_pet=pet_match[0]
-            else:
-                l_pet=Pet(
-                    owner=l_client,
-                    name=filled_pet_form.cleaned_data.get("name"),
-                    gender=filled_pet_form.cleaned_data.get("gender"),
-                    age=filled_pet_form.cleaned_data.get("age"),
-                    species=filled_pet_form.cleaned_data.get("species"),
-                )
-                l_pet.save()
+            taken_times = set()
+            for item in that_day_apps:
+                taken_times.add(item.time)
 
+            all_times = set()
+            for item in HOURS:
+                all_times.add(item[0])
 
-
-            app_det=Appointments(
-                client=l_client,
-                veterinary=l_vet,
-                date=l_date,
-                time=l_time,
-                pet=l_pet,
-                reason=l_reason,
-                req_date=l_req_date
-            )
-            app_det.save()
+            av_times=all_times-taken_times
 
             
-            note="Appointment confirmed"
-            context = {
-                'note': note,
-            }
-            return HttpResponseRedirect(reverse('appointments:adminsum'))
+            if same_time_app.count()>0:
+                # Suggest dates
+                if len(av_times)>0:
+                    suggestions="That date and time with Dr: "+l_vet.name+" is already full,"
+                    suggestions+=" follow this list of suggested times for this date: "
+                    for element in av_times:
+                        suggestions+=str(element)+", "
+                # Suggest changing date
+                else:
+                    suggestions="That date Dr: "+l_vet.name+" is already full,"
+                    suggestions+=" please try other date."
+                
+                
+                context = {
+                    'suggestions': suggestions,
+                    'adminappform': filled_app_form,
+                    'petform': filled_pet_form,
+                }
+                return render(request,'appointments/adminnewapp.html',context)
+            else:
+                pet_name=filled_pet_form.cleaned_data.get("name")
+                pet_match=Pet.objects.filter(name=pet_name).filter(owner=l_client)
+                if pet_match.count()==1:
+                    l_pet=pet_match[0]
+                else:
+                    l_pet=Pet(
+                        owner=l_client,
+                        name=filled_pet_form.cleaned_data.get("name"),
+                        gender=filled_pet_form.cleaned_data.get("gender"),
+                        age=filled_pet_form.cleaned_data.get("age"),
+                        species=filled_pet_form.cleaned_data.get("species"),
+                    )
+                    l_pet.save()
+
+                app_det=Appointments(
+                    client=l_client,
+                    veterinary=l_vet,
+                    date=l_date,
+                    time=l_time,
+                    pet=l_pet,
+                    reason=l_reason,
+                    req_date=l_req_date
+                )
+                app_det.save()
+                
+                note="Appointment confirmed"
+                context = {
+                    'note': note,
+                }
+                return HttpResponseRedirect(reverse('appointments:adminsum'))
             
         else:
             note="Incorrect values, try again"
             context = {
                 'note': note,
-                'appform': filled_app_form,
+                'adminappform': filled_app_form,
                 'petform': filled_pet_form,
             }
             return render(request,'appointments/adminnewapp.html',context)
@@ -223,7 +285,7 @@ def adminconfirm(request):
         note="Incorrect values, try again"
         context = {
             'note': note,
-            'appform': new_app_form,
+            'adminappform': new_app_form,
             'petform': new_pet_form,
         }
         return render(request,'appointments/adminnewapp.html',context)
@@ -800,37 +862,68 @@ def adminsavechanges(request,question_id):
             l_req_date=timezone.now()
 
             pet_name=filled_pet_form.cleaned_data.get("name")
+            same_time_app=Appointments.objects.filter(veterinary=l_vet).filter(date=l_date).filter(time=l_time)
+            that_day_apps=Appointments.objects.filter(veterinary=l_vet).filter(date=l_date)
 
-            pet_match=Pet.objects.filter(name=pet_name).filter(owner=l_client)
-            if pet_match.count()==1:
-                l_pet=pet_match[0]
+            taken_times = set()
+            for item in that_day_apps:
+                taken_times.add(item.time)
+
+            all_times = set()
+            for item in HOURS:
+                all_times.add(item[0])
+
+            av_times=all_times-taken_times
+
+            
+            if same_time_app.count()>0:
+                # Suggest dates
+                if len(av_times)>0:
+                    suggestions="That date and time with Dr: "+l_vet.name+" is already full,"
+                    suggestions+=" follow this list of suggested times for this date: "
+                    for element in av_times:
+                        suggestions+=str(element)+", "
+                # Suggest changing date
+                else:
+                    suggestions="That date Dr: "+l_vet.name+" is already full,"
+                    suggestions+=" please try other date."
+                
+                
+                context = {
+                    'suggestions': suggestions,
+                    'appform': filled_app_form,
+                    'petform': filled_pet_form,
+                }
+                return render(request,'appointments/adminnewapp.html',context)
             else:
-                l_pet=Pet(
-                    owner=l_client,
-                    name=filled_pet_form.cleaned_data.get("name"),
-                    gender=filled_pet_form.cleaned_data.get("gender"),
-                    age=filled_pet_form.cleaned_data.get("age"),
-                    species=filled_pet_form.cleaned_data.get("species"),
+                pet_match=Pet.objects.filter(name=pet_name).filter(owner=l_client)
+                if pet_match.count()==1:
+                    l_pet=pet_match[0]
+                else:
+                    l_pet=Pet(
+                        owner=l_client,
+                        name=filled_pet_form.cleaned_data.get("name"),
+                        gender=filled_pet_form.cleaned_data.get("gender"),
+                        age=filled_pet_form.cleaned_data.get("age"),
+                        species=filled_pet_form.cleaned_data.get("species"),
+                    )
+                    l_pet.save()
+
+                app_det=Appointments(
+                    client=l_client,
+                    veterinary=l_vet,
+                    date=l_date,
+                    time=l_time,
+                    pet=l_pet,
+                    reason=l_reason,
+                    req_date=l_req_date
                 )
-                l_pet.save()
+                app_det.save()
 
-
-
-            app_det=Appointments(
-                client=l_client,
-                veterinary=l_vet,
-                date=l_date,
-                time=l_time,
-                pet=l_pet,
-                reason=l_reason,
-                req_date=l_req_date
-            )
-            app_det.save()
-
-            context = {
-                'uname':uname,
-            }
-            return HttpResponseRedirect(reverse('appointments:adminsum'))
+                context = {
+                    'uname':uname,
+                }
+                return HttpResponseRedirect(reverse('appointments:adminsum'))
 
         else:
             note="Incorrect values, try again"
@@ -1041,7 +1134,7 @@ def adminmodadmin(request,object_id):
     username=request.session['username']
     vet=Veterinary.objects.filter(id=object_id)[0]
 
-    adminregform=UserRegForm(initial={
+    adminregform=AdminRegForm(initial={
         'username':vet.username,
         'name':vet.name,
         'email':vet.email,

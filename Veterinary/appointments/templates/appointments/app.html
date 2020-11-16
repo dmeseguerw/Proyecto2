@@ -15,6 +15,9 @@
     
 {% block content %}
 <p style="margin-bottom:4cm;"></p>
+<p style="text-align: center;color:blue;">
+  {{suggestions}}
+</p>
 <div class="jumbotron" style="background-color: white !important;">
 <form action="{% url 'appointments:confirm' %}" method="POST">
   {% csrf_token %}

@@ -12,9 +12,9 @@ Este proyecto consiste en el desarrollo de una página web para la creación de 
 * js.jquery>=3.3.1
 * django-bootstrap-datepicker-plus>=3.0.5
 # Uso con python
-Se puede utilizar la aplicación instalando los requerimientos y ejecutándola directamente con python o utilizando el contenedor, a continuación se detalla el uso para ambos casos.
+Se puede utilizar la aplicación instalando los requerimientos y ejecutándola directamente con python o utilizando el contenedor, a continuación se detalla el uso para ambos casos. Dentro de la carpeta del proyecto en Proyecto2/Veterinary, ejecutar el siguiente comando:
 
-* Ejecución de la aplicación
+* Ejecución de la aplicación:
 ```sh
 python3 manage.py runserver
 ```
@@ -25,16 +25,18 @@ localhost:8000
 ```
 
 # Uso con docker
-* Creación del contenedor
+Ejecuctar la creación del contenedor dentro de la carpeta Proyecto2/:
+
+* Creación del contenedor:
 ```sh
 docker build --tag proyecto2:latest .
 ```
 
-* Ejecución del contenedor
+* Ejecución del contenedor:
 ```sh
 docker run -p 80:80 proyecto2:latest
 ```
-
+Para esta ejecución se realiza la exposición del puerto 80 (por defecto del localhost) y se mapea con el 80 que se usa en la aplicación dentro del contenedor, esta selección se realiza para simplificar el uso en el navegador y solo requerir acceder a "localhost".
 * Uso en el navegador, ingresar en la barra de búsqueda la siguiente direccion:
 ```sh
 localhost

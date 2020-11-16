@@ -14,11 +14,6 @@ LABEL maintainers = "daniel.meseguer@ucr.ac.cr,esteban.valverde_h@ucr.ac.cr"
 LABEL version="1.0"
 LABEL description = "Proyect 2: Docker Image for Veterinary Web Application"
 
-# # Update and install sqlite3
-# RUN apt-get update \
-#     && apt-get install -y --no-install-recommends \
-#         sqlite3 libsqlite3-dev
-
 # Define working directory
 WORKDIR /usr/src/vet_app
 
