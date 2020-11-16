@@ -1,0 +1,54 @@
+{% extends 'appointments/base.html' %}
+
+{% block extrahead %}
+{% load bootstrap4 %}
+{{ adminappform.media }}
+{% endblock %}
+
+
+{% block block_home %}
+{% endblock %}
+{% block block_about %}
+{% endblock %}
+{% block block_services %}
+{% endblock %}
+{% block block_app %}
+{% endblock %}
+{% block block_contact %}
+{% endblock %}
+{% block admin_info %}
+<li class="nav-item">
+  <a class="nav-link" href="#">Administrator Interface</a>
+</li>
+{% endblock %}
+
+    
+{% block content %}
+<p style="margin-bottom:4cm;"></p>
+
+<form action="{% url 'appointments:adminconfirm'%}" method="POST">
+  {% csrf_token %}
+  <div class="container">
+    <div class="row">
+      
+      <div class="col-sm">
+        <h2 style="text-align: center;">Appointment Details</h2>
+        {% bootstrap_form adminappform %} 
+      </div>
+      
+      <div class="col-sm">  
+        <h2 style="text-align: center;">Pet Details</h2>
+        {% bootstrap_form petform %}
+      </div>
+      
+    </div>
+  </div>
+  <div class="col-md-12 text-center">
+    <input class="btn btn-primary" type="submit" value="Create appointment">
+  </div>
+</form>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

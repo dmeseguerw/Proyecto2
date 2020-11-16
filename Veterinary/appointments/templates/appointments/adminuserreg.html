@@ -7,6 +7,22 @@
     {% bootstrap_javascript jquery='full' %}
     {{ appform.media }}
 
+    {% block block_home %}
+    {% endblock %}
+    {% block block_about %}
+    {% endblock %}
+    {% block block_services %}
+    {% endblock %}
+    {% block block_app %}
+    {% endblock %}
+    {% block block_contact %}
+    {% endblock %}
+    {% block admin_info %}
+    <li class="nav-item">
+    <a class="nav-link" href="#">Administrator Interface</a>
+    </li>
+    {% endblock %}
+
     {% block content %}
     <p style="margin-bottom:4cm;"></p>
     <h2 style="text-align: center;">Register new user</h1>

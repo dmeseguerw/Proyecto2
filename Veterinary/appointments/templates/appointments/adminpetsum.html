@@ -36,7 +36,7 @@
         <form action="{% url 'appointments:adminsum' %}" method="POST">
           {% csrf_token %}
           <div class="col-md-12 text-center">
-            <input class="btn btn-primary btn-block" type="submit" value="Apointments">
+            <input class="btn btn-secondary btn-block" type="submit" value="Apointments">
           </div>
         </form>
         <p style="margin-bottom:1cm;"></p>
@@ -60,50 +60,37 @@
         <form action="{% url 'appointments:adminpetsum' %}" method="POST">
           {% csrf_token %}
           <div class="col-md-12 text-center">
-            <input class="btn btn-secondary btn-block" type="submit" value="Pets">
+            <input class="btn btn-primary btn-block" type="submit" value="Pets">
           </div>
         </form>
 
         </div>
         
         <div class="col-8">
-          <h1 style="text-align: center;">Client appointments</h1>
+          <h1 style="text-align: center;">Pets</h1>
           <p style="margin-bottom:1cm;"></p>
-          {% if has_apps%}
+          {% if has_pets%}
             <table class="table">
               <thead class="thead-dark">
                 <tr>
-                  <th scope="col">Veterinary</th>
-                  <th scope="col">Client</th>
-                  <th scope="col">Pet</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Time</th>
+                  <th scope="col">Owner</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Gender</th>
+                  <th scope="col">Age</th>
+                  <th scope="col">Species</th>
                   <th scope="col" class="text-center">Options</th>
                 </tr>
               </thead>
               <tbody>
-                {% for appointment in user_apps%}
+                {% for pet in pets%}
                 <tr>
-                  <td>Dr: {{appointment.veterinary.name}}</td>
-                  <td>{{appointment.client.name}}</td>
-                  <td>{{appointment.pet.name}}</td>
-                  <td>{{appointment.date}}</td>
-                  <td>{{appointment.time}}</td>
+                  <td>{{pet.owner.name}}</td>
+                  <td>{{pet.name}}</td>
+                  <td>{{pet.gender}}</td>
+                  <td>{{pet.age}}</td>
+                  <td>{{pet.species}}</td>
                   <td>
-                    <div class="row">
-                      <form action="{% url 'appointments:adminmodapp' appointment.id %}" method="POST">
-                        {% csrf_token %}
-                        <div class="col-md-12 text-center">
-                          <input class="btn btn-primary" type="submit" value="Modify">
-                        </div>
-                      </form>
-                      <form action="{% url 'appointments:admindelapp' appointment.id %}" method="POST">
-                        {% csrf_token %}
-                        <div class="col-md-12 text-center">
-                          <input class="btn btn-primary" type="submit" value="Delete">
-                        </div>
-                      </form>
-                    </div>
+                    Arreglar
                   </td>
                 </tr>
                 {% endfor %}
@@ -112,16 +99,15 @@
           
           {% else %}
           <p style="margin-bottom:1cm;"></p>
-          <h4 style="text-align: center;">There are no registered appointments</h4>
+          <h4 style="text-align: center;">There are no registered pets</h4>
           {% endif%}          
         </div>
         
         <div class="col-2">  
-          <!-- FIXME add adminnewapp -->
-          <form action="{% url 'appointments:adminnewapp' %}" method="POST">
+          <form action="{% url 'appointments:adminpetreg' %}" method="POST">
             {% csrf_token %}
             <div class="col-md-12 text-center">
-              <input class="btn btn-primary" type="submit" value="Add new apointment">
+              <input class="btn btn-primary" type="submit" value="Add new pet">
             </div>
           </form>
         </div>

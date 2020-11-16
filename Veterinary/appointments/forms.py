@@ -1,6 +1,25 @@
 from bootstrap_datepicker_plus import DatePickerInput
+from django.contrib.admin.widgets import AdminDateWidget
 from django import forms
 from .models import *
+from datetime import datetime
+
+class AdminAppForm(forms.ModelForm):
+    prefix='appform'
+    class Meta:
+        model = Appointments
+        fields = [
+            'client',
+            'veterinary',
+            'date',
+            'time',
+            'reason',
+        ]
+        widgets = {
+            'date':DatePickerInput(),
+        }
+        
+
 
 class AppForm(forms.ModelForm):
     prefix='appform'
@@ -17,6 +36,24 @@ class AppForm(forms.ModelForm):
         }
         
 
+class AdminPetForm(forms.ModelForm):
+    prefix='adminpetform'
+    class Meta:
+        model = Pet
+        fields = [
+            'owner',
+            'name',
+            'gender',
+            'age',
+            'species',
+        ]
+        labels = {
+            'owner': 'Owner',
+            'name':'Name',
+            'gender':'Gender',
+            'age':'Age',
+            'species':'Species',
+        }
 class PetForm(forms.ModelForm):
     prefix='petform'
     class Meta:
