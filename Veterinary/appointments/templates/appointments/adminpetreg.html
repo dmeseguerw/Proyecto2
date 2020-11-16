@@ -1,0 +1,73 @@
+{% extends 'appointments/base.html' %}
+
+    {% load static %}
+    {% load widget_tweaks %}
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    {{ appform.media }}
+
+    {% block block_home %}
+    {% endblock %}
+    {% block block_about %}
+    {% endblock %}
+    {% block block_services %}
+    {% endblock %}
+    {% block block_app %}
+    {% endblock %}
+    {% block block_contact %}
+    {% endblock %}
+    {% block admin_info %}
+    <li class="nav-item">
+    <a class="nav-link" href="#">Administrator Interface</a>
+    </li>
+    {% endblock %}
+
+    {% block content %}
+    <p style="margin-bottom:4cm;"></p>
+    <h2 style="text-align: center;">Register new pet</h1>
+    <p style="margin-bottom:1cm;"></p>
+    <h3 style="text-align: center;">{{note}}</h3>
+    {% if object_id is not None %}
+    <form action="{% url 'appointments:checkpetreg' object_id %}" method="POST">
+    {% else %}
+    <form action="{% url 'appointments:checkpetreg' %}" method="POST">
+    {% endif %}
+        {% csrf_token %}
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">  
+            </div>
+
+            <div class="col-sm">
+              {% bootstrap_form adminpetform size='small'%}
+              
+            </div>
+            
+            <div class="col-sm">  
+            </div>
+            
+          </div>
+        </div>
+        <div class="col-md-12 text-center">
+          {% if object_id is not None%}
+          <input class="btn btn-primary" type="submit" value="Save changes">
+          {% else %}
+          <input class="btn btn-primary" type="submit" value="Register">
+          {% endif %}
+        </div>
+      </form>
+
+      <p style="margin-bottom:1cm;"></p>
+      <form action="{% url 'appointments:adminpetsum'%}" method="POST">
+          {% csrf_token %}
+          <div class="col-md-12 text-center">
+            <input class="btn btn-primary" type="submit" value="Go Back">
+          </div>
+      </form>
+      
+    {% endblock %}
+
+
+    {% block footer %}
+{% endblock %}
